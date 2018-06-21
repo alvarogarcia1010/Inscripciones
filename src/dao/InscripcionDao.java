@@ -33,7 +33,7 @@ public class InscripcionDao implements Metodos<Inscripcion> {
         try{
             ps = this.conexion.getCnx().prepareStatement(this.SQL_INSERT);
             
-            ps.setInt(1, g.getNumAFP());
+            ps.setString(1, g.getNumAFP());
             ps.setString(2, g.getNombre());
             ps.setString(3, g.getApellido());
             ps.setInt(4, g.getEdad());
@@ -82,7 +82,7 @@ public class InscripcionDao implements Metodos<Inscripcion> {
             ps.setInt(3, c.getEdad());
             ps.setString(4, c.getProfesion());
             ps.setBoolean(5, c.isEstado());;
-            ps.setInt(6, c.getNumAFP());
+            ps.setString(6, c.getNumAFP());
             
             if(ps.executeUpdate() > 0){
                 return true;
@@ -109,7 +109,7 @@ public class InscripcionDao implements Metodos<Inscripcion> {
             rs = ps.executeQuery();
             
             while(rs.next()){
-                i = new Inscripcion(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6));
+                i = new Inscripcion(rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getString(6),rs.getBoolean(7));
             }            
             rs.close();
             
@@ -131,7 +131,7 @@ public class InscripcionDao implements Metodos<Inscripcion> {
             s = this.conexion.getCnx().prepareStatement(SQL_READ);
             rs = s.executeQuery(SQL_READALL);
             while(rs.next()){
-                all.add(new Inscripcion(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4),rs.getString(5),rs.getBoolean(6)));
+                all.add(new Inscripcion(rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),rs.getString(6),rs.getBoolean(7)));
             }            
  
         }catch(SQLException ex){

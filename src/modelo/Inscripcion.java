@@ -10,7 +10,7 @@ package modelo;
  * @author Alvaro García <alvarogarcia1010 at github.com>
  */
 public class Inscripcion {
-    private int numAFP;
+    private String numAFP;
     private String nombre;
     private String apellido;
     private int edad;
@@ -21,7 +21,7 @@ public class Inscripcion {
     
     public Inscripcion(){}
 
-    public Inscripcion(int numAFP, String nombre, String apellido, int edad, String profesion, boolean estado) {
+    public Inscripcion(String numAFP, String nombre, String apellido, int edad, String profesion, boolean estado) {
         this.numAFP = numAFP;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -30,13 +30,15 @@ public class Inscripcion {
         this.estado = estado;
     }
 
-    public int getNumAFP() {
+    public String getNumAFP() {
         return numAFP;
     }
 
-    public void setNumAFP(int numAFP) {
+    public void setNumAFP(String numAFP) {
         this.numAFP = numAFP;
     }
+
+
 
     public String getNombre() {
         return nombre;

@@ -5,81 +5,102 @@
  */
 package vista;
 
-import dao.FiltroDao;
+import dao.InscripcionDao;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import modelo.Filtro;
+import modelo.Inscripcion;
 
 /**
  *
  * @author Alvaro García <alvarogarcia1010 at github.com>
  */
 public class Consulta extends JFrame{
-    public JLabel lblCodigo, lblMarca, lblStock, lblExistencia;
-    public JTextField codigo, descripcion, stock;
-    public JComboBox marca;
+    public JLabel lblNumAfp, lblNombres, lblApellidos, lblEdad, lblProfesion, lblEstado;
+    public JTextField numAfp, nombres, apellidos, edad;
+    
+    public JComboBox profesion;
 
-    public ButtonGroup existencia;
-    public JRadioButton no;
+    public ButtonGroup estado;
     public JRadioButton si;
+    public JRadioButton no;
     public JTable resultados;
     
     public JPanel table;
     
     public JButton buscar, eliminar, insertar, limpiar, actualizar;
     
-    private static final int ANCHOC = 130, ALTOC = 30;
+    private static final int ANCHOC = 210, ALTOC = 35;
     
     DefaultTableModel tm;
     
     public Consulta(){
-        super("Inventario");
+        super("Inscripciones");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         agregarLabels();
         formulario();
         llenarTabla();
+        
         Container container = getContentPane();
-        container.add(lblCodigo);
-        container.add(lblMarca);
-        container.add(lblStock);
-        container.add(lblExistencia);
-        container.add(codigo);
-        container.add(marca);
-        container.add(stock);
-        container.add(si);
-        container.add(no);
-        container.add(buscar);
-        container.add(insertar);
-        container.add(actualizar);
-        container.add(eliminar);
-        container.add(limpiar);
-        container.add(table);
-        setSize(600,600);
+        
+        container.add(this.lblNumAfp);
+        container.add(this.lblNombres);
+        container.add(this.lblApellidos);
+        container.add(this.lblEdad);
+        container.add(this.lblProfesion);
+        container.add(this.lblEstado);
+        
+        container.add(this.numAfp);
+        container.add(this.nombres);
+        container.add(this.apellidos);
+        container.add(this.edad);
+        container.add(this.profesion);
+
+        container.add(this.si);
+        container.add(this.no);
+        
+        container.add(this.buscar);
+        container.add(this.insertar);
+        container.add(this.actualizar);
+        container.add(this.eliminar);
+        container.add(this.limpiar);
+        container.add(this.table);
+        setSize(800,600);
         eventos();
     }
 
     private void agregarLabels() {
-        this.lblCodigo = new JLabel("Codigo");
-        this.lblMarca = new JLabel("Marca");
-        this.lblStock = new JLabel("Stock");
-        this.lblExistencia = new JLabel("Stock en tienda");
-        this.lblCodigo.setBounds(10,10, this.ANCHOC,this.ALTOC);
-        this.lblMarca.setBounds(10,60, this.ANCHOC,this.ALTOC);
-        this.lblStock.setBounds(10,100, this.ANCHOC,this.ALTOC);
-        this.lblExistencia.setBounds(10,140, this.ANCHOC,this.ALTOC);
+        this.lblNumAfp = new JLabel("N° AFP");
+        this.lblNombres = new JLabel("Nombres");
+        this.lblApellidos = new JLabel("Apellidos");
+        this.lblEdad = new JLabel("Edad");
+        this.lblProfesion = new JLabel("Profesion");
+        this.lblEstado = new JLabel("Estado");
+
+
+        this.lblNumAfp.setBounds(20,10, this.ANCHOC,this.ALTOC);
+        this.lblNombres.setBounds(20,60, this.ANCHOC,this.ALTOC);
+        this.lblApellidos.setBounds(360,60, this.ANCHOC,this.ALTOC);
+        this.lblEdad.setBounds(20,110, this.ANCHOC,this.ALTOC);
+        this.lblProfesion.setBounds(20,160, this.ANCHOC,this.ALTOC);
+        this.lblEstado.setBounds(20,210, this.ANCHOC,this.ALTOC);
     }
 
     private void formulario() {
-        this.codigo = new JTextField();
-        this.marca = new JComboBox();
-        this.stock = new JTextField();
+        this.numAfp = new JTextField();
+        this.nombres = new JTextField();
+        this.apellidos = new JTextField();
+        this.edad = new JTextField();
+        
+        this.profesion = new JComboBox();
+
         this.si = new JRadioButton("si",true);
         this.no = new JRadioButton("no");
+        
         this.resultados = new JTable();
         this.buscar = new JButton("Buscar");
         this.insertar = new JButton("Insertar");
@@ -88,29 +109,32 @@ public class Consulta extends JFrame{
         this.limpiar = new JButton("Limpiar");
         
         this.table = new JPanel();
-        //agregar elementos al combox marca
-        this.marca.addItem("FRAM");
-        this.marca.addItem("WIX");
-        this.marca.addItem("Luber Finer");
-        this.marca.addItem("OSK");
-        //agregando los radio a un grupo
-        this.existencia = new ButtonGroup();
-        this.existencia.add(si);
-        this.existencia.add(no);
         
-        this.codigo.setBounds(140, 10, ANCHOC, ALTOC);
-        this.marca.setBounds(140, 60, ANCHOC, ALTOC);
-        this.stock.setBounds(140, 100, ANCHOC, ALTOC);
-        this.si.setBounds(140,140,50,ALTOC);
-        this.no.setBounds(210,140,50,ALTOC);
+        this.profesion.addItem("Ingeniero");
+        this.profesion.addItem("Mecanico");
+        this.profesion.addItem("Profesor");
+        this.profesion.addItem("Arquitecto");
+
+        this.estado = new ButtonGroup();
+        this.estado.add(this.si);
+        this.estado.add(this.no);
         
-        this.buscar.setBounds(300, 10, ANCHOC,ALTOC);
-        this.insertar.setBounds(10, 210, ANCHOC,ALTOC);
-        this.actualizar.setBounds(150, 210, ANCHOC,ALTOC);
-        this.eliminar.setBounds(300, 210, ANCHOC,ALTOC);
-        this.limpiar.setBounds(450, 210, ANCHOC,ALTOC);
-        this.resultados=new JTable();
-        this.table.setBounds(10, 250, 500,200);
+        this.numAfp.setBounds(100, 10, ANCHOC, ALTOC);
+        this.nombres.setBounds(100, 60, ANCHOC, ALTOC);
+        this.apellidos.setBounds(420, 60, ANCHOC, ALTOC);
+        this.edad.setBounds(100, 110, ANCHOC, ALTOC);
+        this.profesion.setBounds(100, 160, ANCHOC, ALTOC);
+        this.si.setBounds(100,210,50,ALTOC);
+        this.no.setBounds(200,210,50,ALTOC);
+        
+        this.buscar.setBounds(360, 10, 100,ALTOC);
+        this.insertar.setBounds(20, 260, 100,ALTOC);
+        this.actualizar.setBounds(150, 260, 100,ALTOC);
+        this.eliminar.setBounds(300, 260, 100,ALTOC);
+        this.limpiar.setBounds(450, 260, 100,ALTOC);
+       
+        this.resultados = new JTable();
+        this.table.setBounds(20, 320, 500,200);
         this.table.add(new JScrollPane(resultados));
             
     }
@@ -126,6 +150,8 @@ public class Consulta extends JFrame{
                         return String.class;
                     case 2:
                         return String.class;
+                    case 3:
+                        return String.class;     
                     default:
                         return Boolean.class;
                 }
@@ -134,16 +160,18 @@ public class Consulta extends JFrame{
             
         };
         
-        tm.addColumn("Codigo");
-        tm.addColumn("Marca");
-        tm.addColumn("Stock");
-        tm.addColumn("Stock en Sucursal");
+        tm.addColumn("N° AFP");
+        tm.addColumn("Nombres");
+        tm.addColumn("Apellidos");
+        tm.addColumn("Profesion");
+        tm.addColumn("Estado");
         
-        FiltroDao fd = new FiltroDao();
-        ArrayList<Filtro> filtros = fd.readAll();
+        InscripcionDao id = new InscripcionDao();
+        ArrayList<Inscripcion> inscripciones = id.readAll();
         
-        for (Filtro fi : filtros){
-            this.tm.addRow(new Object[]{fi.getCodigo(),fi.getMarca(),fi.getStock(),fi.getExistencia()});
+        for (Inscripcion i : inscripciones){
+            this.tm.addRow(new Object[]{i.getNumAFP(),i.getNombre(), i.getApellido(),i.getProfesion(), i.isEstado()});
+            System.out.println(i);
         }
         
         this.resultados.setModel(this.tm);    
@@ -154,16 +182,15 @@ public class Consulta extends JFrame{
         insertar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                FiltroDao fd = new FiltroDao();
-                Filtro f = new Filtro(codigo.getText(),marca.getSelectedItem().toString(),
-                Integer.parseInt(stock.getText()),true);
+                InscripcionDao fd = new InscripcionDao();
+                Inscripcion f = new Inscripcion(numAfp.getText(), nombres.getText(), apellidos.getText(),Integer.parseInt(edad.getText()),profesion.getSelectedItem().toString(),true);
                 
                 if(no.isSelected()){
-                    f.setExistencia(false);
+                    f.setEstado(false);
                 }
                 
                 if(fd.create(f)){
-                    JOptionPane.showMessageDialog(null,"Filtro registrado con exito");
+                    JOptionPane.showMessageDialog(null,"Inscripcion registrado con exito");
                     limpiarCampos();
                     llenarTabla();
                 }else{
@@ -175,16 +202,15 @@ public class Consulta extends JFrame{
     actualizar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                FiltroDao fd = new FiltroDao();
-                Filtro f = new Filtro(codigo.getText(),marca.getSelectedItem().toString(),
-                Integer.parseInt(stock.getText()),true);
+                InscripcionDao fd = new InscripcionDao();
+                Inscripcion f = new Inscripcion(numAfp.getText(), nombres.getText(), apellidos.getText(),Integer.parseInt(edad.getText()),profesion.getSelectedItem().toString(),true);
                 
                 if(no.isSelected()){
-                    f.setExistencia(false);
+                    f.setEstado(false);
                 }
                 
                 if(fd.update(f)){
-                    JOptionPane.showMessageDialog(null,"Filtro Modificado con exito");
+                    JOptionPane.showMessageDialog(null,"Inscripcion Modificado con exito");
                     limpiarCampos();
                     llenarTabla();
                 }else{
@@ -197,9 +223,9 @@ public class Consulta extends JFrame{
         eliminar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                FiltroDao fd = new FiltroDao();
-                if(fd.delete(codigo.getText())){
-                    JOptionPane.showMessageDialog(null,"Filtro eliminado");
+                InscripcionDao fd = new InscripcionDao();
+                if(fd.delete(numAfp.getText())){
+                    JOptionPane.showMessageDialog(null,"Inscripcion eliminado");
                     limpiarCampos();
                     llenarTabla();
                 }else{
@@ -211,16 +237,18 @@ public class Consulta extends JFrame{
         buscar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                FiltroDao fd = new FiltroDao();
-                Filtro f = fd.read(codigo.getText());
+                InscripcionDao fd = new InscripcionDao();
+                Inscripcion f = fd.read(numAfp.getText());
                 if(f == null){
                     JOptionPane.showMessageDialog(null,"El filtro buscado no se ha encontrado");
                 }else{
-                    codigo.setText(f.getCodigo());
-                    marca.setSelectedItem(f.getMarca());
-                    stock.setText(Integer.toString(f.getStock()));
+                    numAfp.setText(f.getNumAFP());
+                    nombres.setText(f.getNombre());
+                    apellidos.setText(f.getApellido());
+                    profesion.setSelectedItem(f.getProfesion());
+                    edad.setText(Integer.toString(f.getEdad()));
 
-                    if(f.getExistencia()){
+                    if(f.isEstado()){
                         si.setSelected(true);
                     }else{
                         no.setSelected(true);
@@ -239,9 +267,12 @@ public class Consulta extends JFrame{
     }
     
     public void limpiarCampos(){
-        codigo.setText("");
-        marca.setSelectedItem("FRAM");
-        stock.setText("");
+        this.numAfp.setText("");
+        this.nombres.setText("");
+        this.apellidos.setText("");
+        this.edad.setText("");
+        this.profesion.setSelectedItem("Ingeniero");
+
     }
     
     public static void main(String[] args){
