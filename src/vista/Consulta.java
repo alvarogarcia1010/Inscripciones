@@ -134,7 +134,7 @@ public class Consulta extends JFrame{
         this.limpiar.setBounds(450, 260, 100,ALTOC);
        
         this.resultados = new JTable();
-        this.table.setBounds(20, 320, 500,200);
+        this.table.setBounds(20, 320, 600,200);
         this.table.add(new JScrollPane(resultados));
             
     }
@@ -171,7 +171,6 @@ public class Consulta extends JFrame{
         
         for (Inscripcion i : inscripciones){
             this.tm.addRow(new Object[]{i.getNumAFP(),i.getNombre(), i.getApellido(),i.getProfesion(), i.isEstado()});
-            System.out.println(i);
         }
         
         this.resultados.setModel(this.tm);    
